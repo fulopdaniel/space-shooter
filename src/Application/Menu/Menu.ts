@@ -1,6 +1,7 @@
 import * as PIXI from "pixi.js";
 import { CANVAS_WIDTH } from "../../shared/const";
 import { DifficultyLevel } from "../../shared/types";
+import StateChanger from "../ApplicationState/StateChanger/StateChanger";
 import Background from "../Game/Background/Background";
 import Button from "./Button/Button";
 
@@ -9,13 +10,17 @@ class Menu {
   loader: PIXI.Loader;
   background: Background;
   buttons: Button[] = [];
-  moveToGame: any;
+  stateChanger: StateChanger;
 
-  constructor(stage: PIXI.Container, loader: PIXI.Loader, moveToGame: any) {
+  constructor(
+    stage: PIXI.Container,
+    loader: PIXI.Loader,
+    stateChanger: StateChanger
+  ) {
     this.stage = stage;
     this.loader = loader;
     this.background = new Background(this.stage, this.loader);
-    this.moveToGame = moveToGame;
+    this.stateChanger = stateChanger;
     this.setup();
   }
 
@@ -33,15 +38,15 @@ class Menu {
     [
       {
         text: "Game 1 - Easy",
-        handler: () => this.moveToGame(DifficultyLevel.EASY),
+        handler: () => this.stateChanger.moveToGame(DifficultyLevel.EASY),
       },
       {
         text: "Game 2 - Medium",
-        handler: () => this.moveToGame(DifficultyLevel.MEDIUM),
+        handler: () => this.stateChanger.moveToGame(DifficultyLevel.MEDIUM),
       },
       {
         text: "Game 3 - Hard",
-        handler: () => this.moveToGame(DifficultyLevel.HARD),
+        handler: () => this.stateChanger.moveToGame(DifficultyLevel.HARD),
       },
       {
         text: "Exit",

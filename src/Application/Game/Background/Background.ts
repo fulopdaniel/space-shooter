@@ -1,4 +1,5 @@
 import * as PIXI from "pixi.js";
+import { CANVAS_HEIGHT, CANVAS_WIDTH } from "../../../shared/const";
 
 class Background {
   stage: PIXI.Container;
@@ -15,13 +16,13 @@ class Background {
   setup() {
     this.backgroundFar = new PIXI.TilingSprite(
       this.loader.resources["img/bg/background_far.png"].texture,
-      800,
-      600
+      CANVAS_WIDTH,
+      CANVAS_HEIGHT
     );
     this.backgroundNear = new PIXI.TilingSprite(
       this.loader.resources["img/bg/background_near.png"].texture,
-      800,
-      600
+      CANVAS_WIDTH,
+      CANVAS_HEIGHT
     );
     this.backgroundFar.position.set(0, 0);
     this.backgroundNear.position.set(0, 0);

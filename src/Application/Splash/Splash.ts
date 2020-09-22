@@ -1,5 +1,6 @@
 import * as PIXI from "pixi.js";
 import { CANVAS_HEIGHT, CANVAS_WIDTH } from "../../shared/const";
+import StateChanger from "../ApplicationState/StateChanger/StateChanger";
 
 const TIME_TO_WAIT_IN_MS = 2000;
 
@@ -8,13 +9,17 @@ class Splash {
   loader: PIXI.Loader;
   isLoaded = false;
   initialTime = Date.now();
-  moveToMenu: any;
+  stateChanger: StateChanger;
   text: PIXI.Text;
 
-  constructor(stage: PIXI.Container, loader: PIXI.Loader, moveToMenu: any) {
+  constructor(
+    stage: PIXI.Container,
+    loader: PIXI.Loader,
+    stateChanger: StateChanger
+  ) {
     this.stage = stage;
     this.loader = loader;
-    this.moveToMenu = moveToMenu;
+    this.stateChanger = stateChanger;
     this.setup();
     this.loader
       .add(["img/bg/background_far.png", "img/bg/background_near.png"])
@@ -74,7 +79,7 @@ class Splash {
     if (Date.now() - this.initialTime > TIME_TO_WAIT_IN_MS && this.isLoaded) {
       this.text.alpha -= delta * 0.03;
       if (this.text.alpha < 0) {
-        this.moveToMenu();
+        this.stateChanger.moveToMenu();
       }
     }
   }

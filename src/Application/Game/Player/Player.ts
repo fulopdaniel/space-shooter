@@ -1,10 +1,9 @@
 import * as PIXI from "pixi.js";
 import Input from "../../Input/Input";
-import { isColliding } from "../../../shared/util";
 import Enemy from "../Enemy/Enemy";
 import Spaceship from "../Spaceship/Spaceship";
 
-const DEFAULT_VELOCITY = 5;
+const DEFAULT_VELOCITY = 6;
 
 class Player extends Spaceship {
   vx: number;

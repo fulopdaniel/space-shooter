@@ -1,10 +1,6 @@
 import * as PIXI from "pixi.js";
-import Input from "../../Input/Input";
-import { CANVAS_HEIGHT } from "../../../shared/const";
+import { CANVAS_HEIGHT, CANVAS_WIDTH } from "../../../shared/const";
 import Spaceship from "../Spaceship/Spaceship";
-
-const DEFAULT_VELOCITY = 2;
-const VERTICAL_VELOCITY_RANGE = 3;
 
 class Enemy extends Spaceship {
   vx: number;
@@ -15,7 +11,7 @@ class Enemy extends Spaceship {
   constructor(stage: PIXI.Container, loader: PIXI.Loader, speed: number) {
     const spriteImage = "img/enemy/spaceship.png";
     const position = {
-      x: 1000,
+      x: CANVAS_WIDTH + 200,
       y: Math.floor(Math.random() * (CANVAS_HEIGHT - 200)),
     };
     const scale = 0.8;
@@ -48,7 +44,7 @@ class Enemy extends Spaceship {
       this.vx = 0;
       this.vy = 0;
     } else if (this.elapsedTime > 20) {
-      this.vy = this.getRandomVerticalSpeedUpTo(VERTICAL_VELOCITY_RANGE);
+      this.vy = this.getRandomVerticalSpeedUpTo(this.speed * 2);
       this.elapsedTime = 0;
     }
   }

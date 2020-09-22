@@ -10,26 +10,22 @@ class Projectile {
   stage: PIXI.Container;
   loader: PIXI.Loader;
   visible: boolean;
-  spaceshipHeight: number;
-  spaceshipWidth: number;
 
-  constructor(
-    stage: PIXI.Container,
-    loader: PIXI.Loader,
-    spaceshipHeight: number,
-    spaceshipWidth: number
-  ) {
+  constructor(stage: PIXI.Container, loader: PIXI.Loader) {
     this.stage = stage;
     this.loader = loader;
     this.visible = true;
-    this.spaceshipHeight = spaceshipHeight;
-    this.spaceshipWidth = spaceshipWidth;
   }
 
-  setProjectilePosition(spaceshipX: number, spaceshipY: number) {
-    this.projectile.x = spaceshipX + this.spaceshipWidth;
+  setProjectilePosition(
+    spaceshipWidth: number,
+    spaceshipHeight: number,
+    spaceshipX: number,
+    spaceshipY: number
+  ) {
+    this.projectile.x = spaceshipX + spaceshipWidth / 1.2;
     this.projectile.y =
-      spaceshipY + this.spaceshipHeight / 2 - this.projectile.height / 2;
+      spaceshipY + spaceshipHeight / 2 - this.projectile.height / 2;
   }
 
   getHitBox(): Hitbox {
@@ -60,18 +56,24 @@ class Projectile {
   }
 
   setupAnimatedSpriteProperties(
+    spaceshipHeight: number,
     sprite: PIXI.AnimatedSprite,
     animationSpeed: number
   ) {
     const aspectRatio = sprite.width / sprite.height;
-    sprite.height = this.spaceshipHeight;
+    sprite.height = spaceshipHeight;
     sprite.width = aspectRatio * sprite.height;
 
     sprite.animationSpeed = animationSpeed;
     sprite.loop = false;
   }
 
-  setup(spaceshipX: number, spaceshipY: number) {
+  setup(
+    spaceshipWidth: number,
+    spaceshipHeight: number,
+    spaceshipX: number,
+    spaceshipY: number
+  ) {
     this.projectile = new PIXI.AnimatedSprite([
       this.loader.resources["img/spaceship/projectile/shot1.png"].texture,
       this.loader.resources["img/spaceship/projectile/shot2.png"].texture,
@@ -90,9 +92,14 @@ class Projectile {
       this.loader.resources["img/spaceship/projectile/shot_exp8.png"].texture,
     ]);
 
-    this.setupAnimatedSpriteProperties(this.projectile, 0.3);
-    this.setupAnimatedSpriteProperties(this.explosion, 0.3);
-    this.setProjectilePosition(spaceshipX, spaceshipY);
+    this.setupAnimatedSpriteProperties(spaceshipHeight, this.projectile, 0.3);
+    this.setupAnimatedSpriteProperties(spaceshipHeight, this.explosion, 0.3);
+    this.setProjectilePosition(
+      spaceshipWidth,
+      spaceshipHeight,
+      spaceshipX,
+      spaceshipY
+    );
     this.projectile.play();
     this.stage.addChild(this.projectile);
   }

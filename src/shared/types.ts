@@ -14,11 +14,10 @@ export interface Hitbox {
   height: number;
 }
 
-export enum ApplicationState {
+export enum ApplicationStateEnum {
   SPLASH,
   MENU,
   GAME,
-  GAMEOVER,
 }
 
 export enum DifficultyLevel {

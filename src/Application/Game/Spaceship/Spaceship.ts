@@ -47,7 +47,24 @@ class Spaceship {
     this.spaceship = new PIXI.Sprite(
       this.loader.resources[this.spaceshipSprite].texture
     );
+    this.vx = 0;
+    this.vy = 0;
+  }
 
+  setupExhaust() {
+    const exhaustWidth = 50;
+    this.exhaust = new Exhaust(
+      this.stage,
+      this.loader,
+      exhaustWidth,
+      this.direction
+    );
+    this.exhaust.setup();
+    this.exhaust.exhaust.position.y =
+      this.spaceship.height / 2 - this.exhaust.exhaust.height / 2;
+  }
+
+  setupExplosion() {
     this.explosion = new PIXI.AnimatedSprite([
       this.loader.resources["img/explosion/Explosion1_1.png"].texture,
       this.loader.resources["img/explosion/Explosion1_2.png"].texture,
@@ -67,21 +84,13 @@ class Spaceship {
     const ar = this.explosion.width / this.explosion.height;
     this.explosion.height = this.spaceship.height;
     this.explosion.width = ar * this.explosion.height;
+  }
 
-    const exhaustWidth = 50;
-    this.exhaust = new Exhaust(
-      this.stage,
-      this.loader,
-      exhaustWidth,
-      this.direction
-    );
-    this.exhaust.setup();
-    this.exhaust.exhaust.position.y =
-      this.spaceship.height / 2 - this.exhaust.exhaust.height / 2;
+  setupProjectiles() {
+    this.projectiles = [];
+  }
 
-    this.vx = 0;
-    this.vy = 0;
-
+  setupContainer() {
     this.container.addChild(this.exhaust.exhaust);
     this.container.addChild(this.spaceship);
     this.container.addChild(this.explosion);
@@ -92,10 +101,6 @@ class Spaceship {
     if (this.direction === -1) {
       this.container.x -= this.container.width;
     }
-  }
-
-  setupProjectiles() {
-    this.projectiles = [];
   }
 
   setShipPosition(delta: number) {
@@ -143,13 +148,13 @@ class Spaceship {
   }
 
   shoot() {
-    const projectile = new Projectile(
-      this.stage,
-      this.loader,
-      this.spaceship.height,
-      this.spaceship.width
+    const projectile = new Projectile(this.stage, this.loader);
+    projectile.setup(
+      this.container.width,
+      this.container.height,
+      this.container.x,
+      this.container.y
     );
-    projectile.setup(this.container.x, this.container.y);
     this.projectiles.push(projectile);
   }
 
@@ -172,7 +177,10 @@ class Spaceship {
 
   setup() {
     this.setupShip();
+    this.setupExplosion();
+    this.setupExhaust();
     this.setupProjectiles();
+    this.setupContainer();
   }
 
   loop(delta: number) {
