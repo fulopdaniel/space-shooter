@@ -1,6 +1,8 @@
 ## About
 
-This is a traditional space shooter game made with Pixi.js
+This is a traditional space shooter game made with Pixi.js.
+
+Move the spaceship with the arrow keys, and shoot with space.
 
 ## Setup
 
